@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fase 1 · Escena básica — XR Lab UMNG</title>
+<link rel="stylesheet" href="../css/xr-ui.css">
+<script src="https://cdn.jsdelivr.net/npm/aframe@1.4.1/dist/aframe-master.min.js"></script>
+</head>
+<body>
+
+  <div class="xr-header">
+    <div class="xr-header__bar">
+      <div class="xr-header__id">
+        <span class="pulse"></span>
+        <div>
+          <h1>Fase 1 — Escena básica</h1>
+          <div class="path">index.html / fases / fase1.html</div>
+        </div>
+      </div>
+      <a href="../index.html" class="xr-header__badge">← Panel principal</a>
+    </div>
+    <div class="xr-toolbar">
+      <button class="chip is-active" data-spot="general"><span class="chip__dot" style="background:#8b98a6"></span>Vista general</button>
+      <button class="chip" data-spot="caja"><span class="chip__dot" style="background:#4cc3d9"></span>a-box</button>
+      <button class="chip" data-spot="esfera"><span class="chip__dot" style="background:#ef2d5e"></span>a-sphere</button>
+      <button class="chip" data-spot="cilindro"><span class="chip__dot" style="background:#ffb454"></span>a-cylinder</button>
+    </div>
+  </div>
+
+  <div class="xr-info" id="info">
+    <span class="tag">PARTE A · CONFIGURACIÓN INICIAL</span>
+    <strong>Estructura básica de A-Frame</strong>
+    Tres primitivas geométricas sobre un plano, tal como se definen en index.html: a-box, a-sphere y a-cylinder.
+  </div>
+  <div class="xr-hint">click + arrastrar: mirar · WASD: moverte</div>
+
+  <a-scene vr-mode-ui="enabled: true" xr-mode-ui="enabled: true">
+
+    <a-plane rotation="-90 0 0" width="10" height="10" color="#7BC8A4"></a-plane>
+    <a-sky color="#ECECEC"></a-sky>
+
+    <a-box id="obj-caja" position="0 1 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
+    <a-sphere id="obj-esfera" position="2 1 -4" radius="1" color="#EF2D5E"></a-sphere>
+    <a-cylinder id="obj-cilindro" position="-2 1 -4" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
+
+    <a-entity id="rig" position="0 1.6 2">
+      <a-camera look-controls wasd-controls>
+        <a-cursor color="#FAFAFA"></a-cursor>
+      </a-camera>
+    </a-entity>
+  </a-scene>
+
+  <script>
+    const info = {
+      general:  { tag: "PARTE A · CONFIGURACIÓN INICIAL", title: "Estructura básica de A-Frame", text: "Tres primitivas geométricas sobre un plano, tal como se definen en index.html: a-box, a-sphere y a-cylinder." },
+      caja:     { tag: "a-box", title: "Primitiva: caja", text: "Definida con position, rotation (0 45 0) y color #4CC3D9. Es la primera entidad declarada dentro de a-scene." },
+      esfera:   { tag: "a-sphere", title: "Primitiva: esfera", text: "Usa el atributo radius en lugar de width/height/depth. Color #EF2D5E." },
+      cilindro: { tag: "a-cylinder", title: "Primitiva: cilindro", text: "Combina radius y height. Color #FFC65D, ubicado al lado opuesto de la esfera." }
+    };
+
+    const spots = {
+      general:  { x: 0,    y: 1.6, z: 2   },
+      caja:     { x: -0.6, y: 1.3, z: -1.2 },
+      esfera:   { x: 1.6,  y: 1.3, z: -2   },
+      cilindro: { x: -1.6, y: 1.3, z: -2   }
+    };
+
+    const rig = document.querySelector('#rig');
+    const infoBox = document.querySelector('#info');
+    const chips = document.querySelectorAll('.chip');
+
+    function goTo(spotKey){
+      const s = spots[spotKey];
+      rig.setAttribute('animation', { property: 'position', to: `${s.x} ${s.y} ${s.z}`, dur: 650, easing: 'easeInOutQuad' });
+
+      chips.forEach(c => c.classList.toggle('is-active', c.dataset.spot === spotKey));
+
+      const d = info[spotKey];
+      infoBox.innerHTML = `<span class="tag">${d.tag}</span><strong>${d.title}</strong>${d.text}`;
+    }
+
+    chips.forEach(c => c.addEventListener('click', () => goTo(c.dataset.spot)));
+  </script>
+
+</body>
+</html>

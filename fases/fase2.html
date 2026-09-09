@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fase 2 · Celda de manufactura — XR Lab UMNG</title>
+<link rel="stylesheet" href="../css/xr-ui.css">
+<script src="https://cdn.jsdelivr.net/npm/aframe@1.4.1/dist/aframe-master.min.js"></script>
+</head>
+<body>
+
+  <div class="xr-header">
+    <div class="xr-header__bar">
+      <div class="xr-header__id">
+        <span class="pulse"></span>
+        <div>
+          <h1>Fase 2 — Celda de manufactura</h1>
+          <div class="path">index.html / fases / fase2.html</div>
+        </div>
+      </div>
+      <a href="../index.html" class="xr-header__badge">← Panel principal</a>
+    </div>
+    <div class="xr-toolbar">
+      <button class="chip is-active" data-target="todo"><span class="chip__dot" style="background:#8b98a6"></span>Celda completa</button>
+      <button class="chip" data-target="tanque"><span class="chip__dot" style="background:#4cc3d9"></span>Tanque</button>
+      <button class="chip" data-target="banda"><span class="chip__dot" style="background:#ffb454"></span>Banda transportadora</button>
+      <button class="chip" data-target="robot"><span class="chip__dot" style="background:#ef2d5e"></span>Brazo robótico</button>
+    </div>
+  </div>
+
+  <div class="xr-info" id="info">
+    <span class="tag">PARTE C · MODELADO INDUSTRIAL</span>
+    <strong>Celda de manufactura completa</strong>
+    Tanque, banda transportadora y brazo robótico construidos con primitivas, con jerarquías espaciales y escalamiento propio por componente.
+  </div>
+  <div class="xr-hint">click + arrastrar: mirar · WASD: moverte</div>
+
+  <a-scene vr-mode-ui="enabled: true" xr-mode-ui="enabled: true">
+
+    <a-plane rotation="-90 0 0" width="30" height="30" color="#243244"></a-plane>
+    <a-sky color="#0f1826"></a-sky>
+    <a-plane position="0 3 -9" width="18" height="6" color="#182231"></a-plane>
+
+    <!-- Tanque de almacenamiento -->
+    <a-entity id="grupo-tanque" position="-4.5 0 -5">
+      <a-cylinder position="0 1 0" radius="0.85" height="2" color="#2E86AB"></a-cylinder>
+      <a-cylinder position="0 2.05 0" radius="0.9" height="0.12" color="#1C5C79"></a-cylinder>
+      <a-sphere position="0.9 1.5 0" radius="0.09" color="#4CC3D9" emissive="#4CC3D9" emissive-intensity="0.55"></a-sphere>
+      <a-text value="TANQUE DE ALMACENAMIENTO" position="0 2.7 0" align="center" color="#eef1f5" width="5"></a-text>
+    </a-entity>
+
+    <!-- Banda transportadora -->
+    <a-entity id="grupo-banda" position="0 0 -5">
+      <a-box position="0 0.45 0" width="5" height="0.18" depth="1" color="#5C6773"></a-box>
+      <a-cylinder position="-2.3 0.45 0" radius="0.22" height="1.05" rotation="0 0 90" color="#FFB454"></a-cylinder>
+      <a-cylinder position="2.3 0.45 0" radius="0.22" height="1.05" rotation="0 0 90" color="#FFB454"></a-cylinder>
+      <a-box position="-2 0.68 0" width="0.38" height="0.38" depth="0.38" color="#EF2D5E"
+             animation="property: position; from: -2 0.68 0; to: 2 0.68 0; dir: alternate; dur: 4200; loop: true; easing: linear"></a-box>
+      <a-text value="BANDA TRANSPORTADORA" position="0 1.15 0" align="center" color="#eef1f5" width="5"></a-text>
+    </a-entity>
+
+    <!-- Brazo robótico -->
+    <a-entity id="grupo-robot" position="4.5 0 -5"
+              animation="property: rotation; to: 0 55 0; dir: alternate; dur: 2800; loop: true; easing: easeInOutSine">
+      <a-cylinder position="0 0.15 0" radius="0.5" height="0.3" color="#212936"></a-cylinder>
+      <a-cylinder position="0 0.9 0" radius="0.17" height="1.4" color="#6C757D"></a-cylinder>
+      <a-box position="0.55 1.55 0" width="1" height="0.18" depth="0.18" color="#4CC3D9" rotation="0 0 -18"></a-box>
+      <a-sphere position="1.1 1.32 0" radius="0.12" color="#EF2D5E" emissive="#EF2D5E" emissive-intensity="0.5"></a-sphere>
+      <a-text value="BRAZO ROBÓTICO" position="0 2.1 0" align="center" color="#eef1f5" width="5"></a-text>
+    </a-entity>
+
+    <a-entity id="rig" position="0 2.4 2">
+      <a-camera look-controls wasd-controls>
+        <a-cursor color="#FAFAFA"></a-cursor>
+      </a-camera>
+    </a-entity>
+  </a-scene>
+
+  <script>
+    const info = {
+      todo:    { tag: "PARTE C · MODELADO INDUSTRIAL", title: "Celda de manufactura completa", text: "Tanque, banda transportadora y brazo robótico construidos con primitivas, con jerarquías espaciales y escalamiento propio por componente." },
+      tanque:  { tag: "a-cylinder ×2", title: "Tanque de almacenamiento", text: "Cuerpo y tapa construidos con dos a-cylinder anidados; un a-sphere emisivo marca el indicador de nivel." },
+      banda:   { tag: "a-box + a-cylinder", title: "Banda transportadora", text: "Estructura en a-box, rodillos en a-cylinder rotados 90° y una pieza que se traslada mediante animation." },
+      robot:   { tag: "grupo animado", title: "Brazo robótico básico", text: "Toda la entidad gira sobre su eje Y; el brazo y el efector (a-sphere) heredan el movimiento del grupo padre." }
+    };
+
+    const groups = {
+      tanque: document.querySelector('#grupo-tanque'),
+      banda:  document.querySelector('#grupo-banda'),
+      robot:  document.querySelector('#grupo-robot')
+    };
+
+    const spots = {
+      todo:   { x: 0,    y: 2.4, z: 2  },
+      tanque: { x: -4.5, y: 1.6, z: -2 },
+      banda:  { x: 0,    y: 1.6, z: -2 },
+      robot:  { x: 4.5,  y: 1.6, z: -2 }
+    };
+
+    const rig = document.querySelector('#rig');
+    const infoBox = document.querySelector('#info');
+    const chips = document.querySelectorAll('.chip');
+
+    function focusOn(target){
+      Object.keys(groups).forEach(k => groups[k].setAttribute('visible', target === 'todo' || k === target));
+
+      const s = spots[target];
+      rig.setAttribute('animation', { property: 'position', to: `${s.x} ${s.y} ${s.z}`, dur: 700, easing: 'easeInOutQuad' });
+
+      chips.forEach(c => c.classList.toggle('is-active', c.dataset.target === target));
+
+      const d = info[target];
+      infoBox.innerHTML = `<span class="tag">${d.tag}</span><strong>${d.title}</strong>${d.text}`;
+    }
+
+    chips.forEach(c => c.addEventListener('click', () => focusOn(c.dataset.target)));
+  </script>
+
+</body>
+</html>

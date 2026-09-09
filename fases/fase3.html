@@ -21,8 +21,8 @@
       <a href="../index.html" class="xr-header__badge">← Panel principal</a>
     </div>
     <div class="xr-toolbar">
-      <button class="chip is-active" data-view="modelo"><span class="chip__dot" style="background:#4cc3d9"></span>Ensamblaje 3D</button>
-      <button class="chip" data-view="pipeline"><span class="chip__dot" style="background:#ffb454"></span>Cómo se generó</button>
+      <button class="chip is-active" data-view="modelo"><span class="chip__dot" style="background:#22d3ee"></span>Ensamblaje 3D</button>
+      <button class="chip" data-view="pipeline"><span class="chip__dot" style="background:#8b5cf6"></span>Cómo se generó</button>
       <button class="chip is-outline" data-view="reload">↻ Reintentar carga</button>
     </div>
   </div>
@@ -40,8 +40,8 @@
       <a-asset-item id="modeloIndustrial" src="../models/modelo.glb"></a-asset-item>
     </a-assets>
 
-    <a-plane rotation="-90 0 0" width="16" height="16" color="#243244"></a-plane>
-    <a-sky color="#0f1826"></a-sky>
+    <a-plane rotation="-90 0 0" width="16" height="16" material="color:#141b33; metalness:0.35; roughness:0.7"></a-plane>
+    <a-sky color="#0a0f24"></a-sky>
 
     <!-- Modelo CAD real -->
     <a-entity id="cad-model"
@@ -54,9 +54,9 @@
     <!-- Marcador de referencia (se activa si el GLB no está disponible) -->
     <a-entity id="cad-placeholder" position="0 0 -5" visible="false"
               animation="property: rotation; to: 0 360 0; dur: 18000; loop: true; easing: linear">
-      <a-box position="0 0.55 0" width="1.5" height="1.1" depth="1.5" color="#3a4a5c"></a-box>
-      <a-cylinder position="0 1.35 0" radius="0.35" height="0.55" color="#ffb454"></a-cylinder>
-      <a-text value="ENSAMBLAJE PENDIENTE\ncoloca models/modelo.glb" align="center" position="0 2.1 0" width="4" color="#eef1f5"></a-text>
+      <a-box position="0 0.55 0" width="1.5" height="1.1" depth="1.5" material="color:#3730a3; metalness:0.4; roughness:0.4"></a-box>
+      <a-cylinder position="0 1.35 0" radius="0.35" height="0.55" color="#22D3EE" emissive="#22D3EE" emissive-intensity="0.35"></a-cylinder>
+      <a-text value="ENSAMBLAJE PENDIENTE\ncoloca models/modelo.glb" align="center" position="0 2.1 0" width="4" color="#eef2ff"></a-text>
     </a-entity>
 
     <a-entity id="rig" position="0 1.6 2">
